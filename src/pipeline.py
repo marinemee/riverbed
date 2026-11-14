@@ -1,5 +1,6 @@
 import glob, json, os, re
 import numpy as np, rasterio, geopandas as gpd
+if not hasattr(np, "in1d"): np.in1d = np.isin
 from rasterio.features import shapes
 from scipy import ndimage as ndi
 from shapely.geometry import shape
@@ -45,7 +46,7 @@ for d in dates:
     print(d, "raw water share %.2f%%" % (raw[d].mean() * 100))
     assert raw[d].mean() < 0.15, "water share too high: check dB values / thresholds"
 p1 = {d: clean(raw[d], MIN_BLOB) for d in dates}
-channel1 = lowch(p1)
+channel1 = clean(lowch(p1), 2000)
 print("channel pixels (pass 1):", int(channel1.sum()))
 assert channel1.sum() > 1000, "almost no river found: loosen thresholds"
 
