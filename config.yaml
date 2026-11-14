@@ -20,3 +20,13 @@ scenario:
   rise_step_m: 0.5
 exposure:
   near_distance_m: 50
+
+# water thresholds (provisional, tuned on 2026-11-11)
+water_hh_db: -10
+water_hv_db: -17
+water_slope_max_deg: 8
+
+# water thresholds (provisional, tuned on 2026-11-11)
+water_hh_db: -10
+water_hv_db: -17
+water_slope_max_deg: 8

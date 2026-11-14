@@ -8,3 +8,10 @@ __pycache__/
 node_modules/
 .DS_Store
 *.egg-info/
+search_results/
+output/
+data/raw/
+data/derived/*.geojson
+data/derived/*.state
+data/derived/*.tif
+cache/
