@@ -1,0 +1,10 @@
+:root { --ink:#1B2A2F; --paper:#F4F1EA; --deep:#12303A; --water:#2B7A99; --exposed:#B35F0F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: Inter, system-ui, sans-serif; color:var(--ink); background:var(--paper); display:flex; flex-direction:column; height:100vh; }
+header { display:flex; gap:16px; align-items:center; padding:0 20px; height:56px; background:var(--deep); color:var(--paper); }
+main { flex:1; display:flex; min-height:0; }
+#panel { width:300px; padding:20px; background:#fff; border-right:1px solid #D9D5C7; }
+#map { flex:1; }
+input[type=range] { width:100%; accent-color:var(--water); }
+#note { font-size:13px; color:#4A5A5F; }
+@media (max-width: 700px) { main { flex-direction:column-reverse; } #panel { width:100%; border-right:0; border-top:1px solid #D9D5C7; } }

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Riverbed: where does the Swat River really go?</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><strong>Riverbed</strong><span>Swat River, Mingora reach</span></header>
+<main>
+  <aside id="panel">
+    <h2>What if the river rises?</h2>
+    <label for="rise" id="rise-label">3.0 m above low-flow level</label>
+    <input id="rise" type="range" min="0" max="10" step="0.5" value="3">
+    <p><span id="count">&ndash;</span> buildings in the flood zone</p>
+    <p id="note">Shows exposure, not a prediction of when or whether a flood will happen.</p>
+  </aside>
+  <div id="map" role="region" aria-label="Map of the Swat River"></div>
+</main>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

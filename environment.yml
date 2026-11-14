@@ -1,0 +1,21 @@
+name: riverbed
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - scikit-image
+  - h5py
+  - xarray
+  - rasterio
+  - pyproj
+  - geopandas
+  - shapely
+  - osmnx
+  - matplotlib
+  - jupyterlab
+  - pyyaml
+  - pip
+  - pip:
+      - asf_search
+      - pysheds
