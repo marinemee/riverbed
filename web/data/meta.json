@@ -1,1 +1,74 @@
 {"aoi_bbox":[72.2357151861348,34.69081189612212,72.66215981900422,35.10929983004353],"passes":[{"id":"20260726","label":"26 Jul 2026 - high flow","flow":"high","scene":"NISAR_L2_PR_GCOV_026_084_A_019_4005_DHDH_A_20260726T002237_20260726T002312_P05023_N_F_J_001","maturity":"PROVISIONAL"},{"id":"20260819","label":"19 Aug 2026 - high flow","flow":"high","scene":"NISAR_L2_PR_GCOV_028_084_A_019_4005_DHDH_A_20260819T002236_20260819T002311_P05023_N_F_J_001","maturity":"PROVISIONAL"},{"id":"20261030","label":"30 Oct 2026 - low flow","flow":"low","scene":"NISAR_L2_PR_GCOV_034_084_A_019_4005_DHDH_A_20261030T002236_20261030T002311_P05036_N_F_J_001","maturity":"VALIDATED"},{"id":"20261111","label":"11 Nov 2026 - low flow","flow":"low","scene":"NISAR_L2_PR_GCOV_035_084_A_019_4005_DHDH_A_20261111T002237_20261111T002311_P05036_N_F_J_001","maturity":"VALIDATED"}],"rise_steps":[0.0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0],"credits":["NISAR data courtesy of NASA/JPL, distributed by ASF DAAC","NASA JPL (2020). NASADEM HGT V001. doi:10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001","© OpenStreetMap contributors, Overture Maps Foundation","Overture buildings: ODbL 1.0 (https://opendatacommons.org/licenses/odbl/1-0/); source attributions: https://docs.overturemaps.org/attribution/#buildings"],"generated":"2026-11-15T08:54:39.204911+00:00","raster_crs":"EPSG:4326","raster_size":[1600,1570],"legends":{"water_frequency":{"min":0,"max":1,"unit":"share","cmap":"Blues"},"hand":{"min":0,"max":30,"unit":"m","cmap":"viridis","clipped":true},"radar":{"min":-35,"max":5,"unit":"dB","band":"HH","clipped":true}},"sources":{"water_frequency.png":"data/derived/water_frequency.tif","hand.png":"data/derived/hand.tif","water_mask_20260726.png":"data/derived/20260726_water.tif","radar_20260726.png":"data/derived/20260726_hh_dB.tif","water_mask_20260819.png":"data/derived/20260819_water.tif","radar_20260819.png":"data/derived/20260819_hh_dB.tif","water_mask_20261030.png":"data/derived/20261030_water.tif","radar_20261030.png":"data/derived/20261030_hh_dB.tif","water_mask_20261111.png":"data/derived/20261111_water.tif","radar_20261111.png":"data/derived/20261111_hh_dB.tif","inundation/h_0.0.png":"data/derived/flood_h000.tif","inundation/h_0.5.png":"data/derived/flood_h005.tif","inundation/h_1.0.png":"data/derived/flood_h010.tif","inundation/h_1.5.png":"data/derived/flood_h015.tif","inundation/h_2.0.png":"data/derived/flood_h020.tif","inundation/h_2.5.png":"data/derived/flood_h025.tif","inundation/h_3.0.png":"data/derived/flood_h030.tif","inundation/h_3.5.png":"data/derived/flood_h035.tif","inundation/h_4.0.png":"data/derived/flood_h040.tif","inundation/h_4.5.png":"data/derived/flood_h045.tif","inundation/h_5.0.png":"data/derived/flood_h050.tif","inundation/h_5.5.png":"data/derived/flood_h055.tif","inundation/h_6.0.png":"data/derived/flood_h060.tif","inundation/h_6.5.png":"data/derived/flood_h065.tif","inundation/h_7.0.png":"data/derived/flood_h070.tif","inundation/h_7.5.png":"data/derived/flood_h075.tif","inundation/h_8.0.png":"data/derived/flood_h080.tif","inundation/h_8.5.png":"data/derived/flood_h085.tif","inundation/h_9.0.png":"data/derived/flood_h090.tif","inundation/h_9.5.png":"data/derived/flood_h095.tif","inundation/h_10.0.png":"data/derived/flood_h100.tif"}}
+{
+  "bounds": [
+    72.2357151861348,
+    34.69081189612212,
+    72.66215981900422,
+    35.10929983004353
+  ],
+  "coordinates": [
+    [
+      72.2357151861348,
+      35.10929983004353
+    ],
+    [
+      72.66215981900422,
+      35.10929983004353
+    ],
+    [
+      72.66215981900422,
+      34.69081189612212
+    ],
+    [
+      72.2357151861348,
+      34.69081189612212
+    ]
+  ],
+  "dates": {
+    "20260726": "high flow (provisional)",
+    "20260819": "high flow (provisional)",
+    "20261030": "low flow",
+    "20261111": "low flow"
+  },
+  "rise_steps_m": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0,
+    5.5,
+    6.0,
+    6.5,
+    7.0,
+    7.5,
+    8.0,
+    8.5,
+    9.0,
+    9.5,
+    10.0
+  ],
+  "files": {
+    "flood": "layers/flood_{h*10:03d}.png",
+    "water": "layers/water_{date}.png",
+    "radar_hh": "layers/radar_hh_{date}.png",
+    "radar_hv": "layers/radar_hv_{date}.png",
+    "frequency": "layers/water_frequency.png",
+    "hand": "layers/hand.png",
+    "agree": "layers/agree_disagree.png",
+    "corridor": "corridor.geojson",
+    "buildings": "buildings.geojson",
+    "validation": "validation.json"
+  },
+  "credits": [
+    "NISAR data courtesy of NASA/JPL, distributed by ASF DAAC.",
+    "NASA JPL (2020). NASADEM Merged DEM Global 1 arc second V001. NASA EOSDIS Land Processes DAAC. doi:10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001",
+    "\u00a9 OpenStreetMap contributors.",
+    "Building footprints: Overture Maps Foundation (check exact attribution)."
+  ]
+}
