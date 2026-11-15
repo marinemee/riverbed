@@ -2,9 +2,11 @@
 
 const el = Object.fromEntries([
   'controls', 'view', 'pass', 'pass-info', 'legend', 'corridor', 'buildings',
-  'inundation', 'rise', 'rise-label', 'rise-min', 'rise-max', 'count', 'fit',
+  'inundation', 'rise', 'rise-label', 'rise-min', 'rise-max', 'count',
   'status', 'issues', 'validation', 'generated', 'credits', 'map-placeholder',
 ].map(id => [id, document.getElementById(id)]));
+// Free vector basemap, no API key. Swap this one line to change provider.
+const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 const state = {
   map: null, meta: null, coordinates: null, buildings: null, mask: null,
   images: new Map(), issues: new Map(), pending: new Set(),
@@ -108,7 +110,7 @@ async function showRaster(slot, name) {
     // Observation below scenario; both below vector overlays.
     const before = slot === 'background' && state.rasters.inundation ?
       state.rasters.inundation.id :
-      ['corridor-fill', 'corridor-line', 'buildings-fill', 'buildings-points']
+      ['corridor-fill', 'corridor-casing', 'corridor-line', 'buildings-fill', 'buildings-points']
         .find(layer => state.map.getLayer(layer));
     state.map.addLayer({
       id, type: 'raster', source: id,
@@ -133,8 +135,14 @@ function legend() {
   if (view === 'none') return;
   const description = document.createElement('p');
   if (view === 'water_mask') {
-    description.textContent = 'Blue: water observed in the selected radar pass. Dry pixels are transparent.';
-    el.legend.append(description);
+    const row = document.createElement('div');
+    row.className = 'legend-row';
+    const swatch = document.createElement('i');
+    swatch.className = 'swatch water';
+    swatch.setAttribute('aria-hidden', 'true');
+    description.textContent = 'Water observed in the selected radar pass. Dry pixels are transparent.';
+    row.append(swatch, description);
+    el.legend.append(row);
     return;
   }
   const scale = state.meta.legends?.[view];
@@ -149,9 +157,10 @@ function legend() {
   const limits = document.createElement('div');
   limits.className = 'range-labels';
   const unit = scale.unit === 'share' ? 'share of passes' : scale.unit;
-  for (const value of [scale.min, scale.max]) {
+  // Three labels: low, middle, high.
+  for (const value of [scale.min, (scale.min + scale.max) / 2, scale.max]) {
     const label = document.createElement('span');
-    label.textContent = `${value} ${unit || ''}`;
+    label.textContent = `${Number(value.toFixed(2))} ${unit || ''}`;
     limits.append(label);
   }
   el.legend.append(ramp, limits);
@@ -227,7 +236,7 @@ async function renderInundation() {
 }
 
 function setVectorVisibility(prefix, visible) {
-  for (const layer of [`${prefix}-fill`, `${prefix}-line`, `${prefix}-points`]) {
+  for (const layer of [`${prefix}-fill`, `${prefix}-casing`, `${prefix}-line`, `${prefix}-points`]) {
     if (state.map.getLayer(layer)) state.map.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
   }
 }
@@ -241,8 +250,13 @@ async function loadCorridor() {
     const before = state.map.getLayer('buildings-fill') ? 'buildings-fill' : undefined;
     state.map.addLayer({ id: 'corridor-fill', type: 'fill', source: 'corridor',
       paint: { 'fill-color': '#cb6e24', 'fill-opacity': 0.07 } }, before);
+    // White casing under a dark dashed line: readable on light and dark layers.
+    state.map.addLayer({ id: 'corridor-casing', type: 'line', source: 'corridor',
+      layout: { 'line-join': 'round' },
+      paint: { 'line-color': '#ffffff', 'line-width': 5, 'line-opacity': 0.9 } }, before);
     state.map.addLayer({ id: 'corridor-line', type: 'line', source: 'corridor',
-      paint: { 'line-color': '#a74a09', 'line-width': 2, 'line-dasharray': [3, 1.5] } }, before);
+      layout: { 'line-join': 'round' },
+      paint: { 'line-color': '#8a3a00', 'line-width': 2.2, 'line-dasharray': [3, 1.5] } }, before);
     setVectorVisibility('corridor', el.corridor.checked);
   } catch (error) {
     issue('corridor', `Corridor unavailable: ${error.message}`);
@@ -315,9 +329,28 @@ async function loadValidation() {
   } catch (error) { el.validation.textContent = `Validation unavailable: ${error.message}`; }
 }
 
-function fitArea() {
+function fitArea(animate = true) {
   const [w, s, e, n] = state.meta.aoi_bbox;
-  state.map.fitBounds([[w, s], [e, n]], { padding: 28, duration: 0 });
+  state.map.fitBounds([[w, s], [e, n]], {
+    padding: 28, bearing: 0, pitch: 0, duration: animate ? 800 : 0,
+  });
+}
+
+// Map button: takes the user back to the Swat area after exploring.
+class ResetViewControl {
+  onAdd() {
+    this.container = document.createElement('div');
+    this.container.className = 'maplibregl-ctrl maplibregl-ctrl-group reset-ctrl';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'Reset view';
+    button.title = 'Return to the Swat River area';
+    button.setAttribute('aria-label', 'Reset map to the Swat River area');
+    button.addEventListener('click', () => fitArea(true));
+    this.container.append(button);
+    return this.container;
+  }
+  onRemove() { this.container.remove(); }
 }
 
 async function initialize() {
@@ -343,27 +376,24 @@ async function initialize() {
     state.map = new maplibregl.Map({
       container: 'map',
       // Start in the exported Swat River area; image coordinates stay unchanged.
-      center: [(w + e) / 2, (s + n) / 2], zoom: 10, bearing: 0, pitch: 0,
       bounds: [[w, s], [e, n]], fitBoundsOptions: { padding: 28 },
-      style: {
-        version: 8,
-        sources: { basemap: { type: 'raster', tileSize: 256,
-          // Public cached tiles: no private API key or hosted style is needed.
-          tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'],
-          attribution: 'Tiles &copy; <a href="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">Esri and data contributors</a>; &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' } },
-        layers: [{ id: 'paper', type: 'background', paint: { 'background-color': '#e9ede8' } },
-          { id: 'basemap', type: 'raster', source: 'basemap' }],
-      },
+      bearing: 0, pitch: 0,
+      minZoom: 7, // people can explore, but not zoom out to the whole world
+      style: BASEMAP_STYLE,
     });
     state.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    state.map.addControl(new ResetViewControl(), 'top-left');
+    // Safety: re-measure the map box and frame the area once the map is ready.
+    state.map.once('load', () => { state.map.resize(); fitArea(false); });
     state.map.on('error', event => {
-      if (event.sourceId === 'basemap') {
-        issue('basemap', 'Basemap unavailable. Exported overlays can still be viewed.');
-      } else if (event.sourceId) {
+      if (event.sourceId) {
         const slot = Object.keys(state.rasters).find(key => state.rasters[key].id === event.sourceId);
         if (slot) {
           issue(slot, `Unavailable: data/${state.rasters[slot].name}. ${event.error?.message || ''}`);
           removeRaster(slot);
+        } else if (!['corridor', 'buildings'].includes(event.sourceId) &&
+                   !/^(background|inundation)-\d+$/.test(event.sourceId)) {
+          issue('basemap', 'Basemap unavailable. Exported overlays can still be viewed.');
         }
       } else issue('map', `Map error: ${event.error?.message || 'Unable to render the map.'}`);
     });
@@ -385,7 +415,6 @@ async function initialize() {
       const id = state.rasters.inundation?.id;
       if (id) state.map.setLayoutProperty(id, 'visibility', el.inundation.checked ? 'visible' : 'none');
     });
-    el.fit.addEventListener('click', fitArea);
     new ResizeObserver(() => state.map.resize()).observe(document.getElementById('map'));
   } catch (error) {
     el.status.textContent = 'Map unavailable.';
