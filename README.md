@@ -45,7 +45,9 @@ Rules are in `docs/CONTRIBUTING.md`.
 ## Credits
 - NISAR data courtesy of NASA/JPL, distributed by ASF DAAC.
 - NASA JPL (2020). NASADEM Merged DEM Global 1 arc second V001. NASA EOSDIS Land Processes DAAC. doi:10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001
-- Building data: (c) OpenStreetMap contributors.
+- Building data: © OpenStreetMap contributors, Overture Maps Foundation.
+  [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/);
+  [Overture source attributions](https://docs.overturemaps.org/attribution/#buildings).
 
 ## License
 MIT for code (see LICENSE). Data keeps its original licenses.
