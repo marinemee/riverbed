@@ -25,6 +25,15 @@ All files live in `web/data/`. Rasters are PNG overlays in EPSG:4326; their boun
 }
 ```
 
+`aoi_bbox` is `[west, south, east, north]` in EPSG:4326 and describes the actual
+shared PNG extent. Each pass uses `id`, `label`, `flow`, `scene`, and `maturity`.
+The exporter also supplies optional `raster_crs`, `raster_size`, `legends`, and
+`sources` fields; loaders can ignore these extensions.
+
+`web/app.js` loads `meta.json` for bounds, pass choices, rise levels, legends and
+credits. PNG filenames follow the contract above and are checked against the
+keys of `sources` when supplied; its values name upstream TIFFs, not web assets.
+
 ## buildings.geojson properties
 `id`, `name` (optional), `type` ("hotel" | "restaurant" | "building"), `hand_min` (metres above nearest river channel),
 `dist_m` (metres to the low-flow channel), `inside_corridor` (bool), `exposure` ("inside" | "near" | "above").

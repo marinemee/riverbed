@@ -17,3 +17,18 @@ NISAR docs: https://nisar-docs.asf.alaska.edu/ . Code examples: https://asfopens
 - 2026-07-26 and 2026-08-19 (high flow, PROVISIONAL); 2026-10-30 and 2026-11-11 (low flow, validated)
 - No June pass on this track; "high flow" here means July/August.
 - DEM: NASADEM HGT v001 tiles n34e072, n35e072. Buildings: Overture Maps (OSM too sparse in Swat).
+
+## Building attribution (checked 2026-11-15)
+
+The exporter uses the map credit shown in the
+[official Overture attribution guidance](https://docs.overturemaps.org/attribution/):
+"© OpenStreetMap contributors, Overture Maps Foundation".
+The [buildings theme](https://docs.overturemaps.org/attribution/#buildings) is
+published under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
+The exported credits include the license and source-attribution links.
+
+This verifies the theme-level wording. The current processed building points
+do not retain Overture's original `sources` metadata, and the raw Overture input
+is absent in this checkout. Check the original release and feature sources for
+any additional provider-specific credits before publication; the processed
+points alone cannot establish those credits or the release/access date.
