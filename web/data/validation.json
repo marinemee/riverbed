@@ -1,0 +1,25 @@
+{
+  "fit_date": "20260726",
+  "fit_rise_m": 0.0,
+  "iou_fit": 0.303,
+  "test_date": "20260819",
+  "iou_test": 0.342,
+  "iou_at_fit_by_date": {
+    "20260726": 0.303,
+    "20260819": 0.342,
+    "20261030": 0.534,
+    "20261111": 0.753
+  },
+  "iou_at_0m_by_date": {
+    "20260726": 0.303,
+    "20260819": 0.342,
+    "20261030": 0.534,
+    "20261111": 0.753
+  },
+  "thresholds": {
+    "hh_db": -10,
+    "hv_db": -17,
+    "slope_max_deg": 8
+  },
+  "note": "approximate; DEM errors can be several metres in mountains"
+}
