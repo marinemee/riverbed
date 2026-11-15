@@ -1,3 +1,4 @@
+{"calibrated_on":"20260726","tested_on":"20260819","best_rise_m":0.0,"iou_fit":0.303,"iou_test":0.342,"notes":"approximate; DEM errors can be several metres in mountains"}
 {
   "fit_date": "20260726",
   "fit_rise_m": 0.0,
